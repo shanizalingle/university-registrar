@@ -1,0 +1,18 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Registrar.Models.Student
+
+<h4>Add a new Student</h4>
+@using (Html.BeginForm())
+{
+  @Html.LabelFor(model => model.Name)
+  @Html.TextBoxFor(model => model.Name)
+
+  @Html.Label("Enrollment Date")
+  @Html.TextBoxFor(model => model.Date, new { type = "date" })
+
+  <input type="submit" value="Add new student" />
+}
+<p>@Html.ActionLink("Show all students", "Index")</p>

@@ -1,0 +1,18 @@
+@{
+  Layout = "_Layout";
+}
+
+@using Registrar.Models;
+@model List<Registrar.Models.Course>;
+
+<h1>Courses</h1>
+
+<ul>
+  @foreach(Course course in Model)
+  {
+    <li>@Html.ActionLink($"{course.Title}", "Details", new { id = course.CourseId } )</li>
+  }
+</ul>
+
+<p>@Html.ActionLink("Add new course", "Create")</p>
+<p>@Html.ActionLink("Home", "Index", "Home")</p>

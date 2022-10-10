@@ -1,0 +1,27 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Registrar.Models.Course
+
+<h2>Edit</h2>
+
+<h4>Edit this task: @Html.DisplayFor(model => model.Title)</h4>
+
+@using (Html.BeginForm())
+{
+  @Html.HiddenFor(model => model.CourseId)
+
+  @Html.Label("Change course title")
+  @Html.EditorFor(model => model.Title)
+
+  @Html.Label("Select student")
+  @Html.DropDownList("StudentId")
+
+  @Html.Label("Change course number")
+  @Html.EditorFor(model => model.Number)
+
+  <input type="submit" value="Save" />
+}
+
+<p>@Html.ActionLink("Back to list", "Index")</p>
