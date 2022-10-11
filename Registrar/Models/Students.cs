@@ -7,12 +7,15 @@ namespace Registrar.Models
   {
     public Student()
     {
-      this.JoinEntities = new HashSet<StudentCourse>();
+      this.JoinStuCou = new HashSet<StudentCourse>();
+
+      this.JoinDeptStu = new HashSet<DepartmentStudent>();
     }
 
     public int StudentId { get; set; }
     public string Name { get; set; }
     public DateTime Date { get; set; }
-    public virtual ICollection<StudentCourse> JoinEntities { get; set; }
+    public virtual ICollection<StudentCourse> JoinStuCou { get; set; }
+    public virtual ICollection<DepartmentStudent> JoinDeptStu { get; set; }
   }
 }

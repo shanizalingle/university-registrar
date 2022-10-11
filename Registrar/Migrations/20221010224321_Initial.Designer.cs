@@ -77,13 +77,13 @@ namespace Registrar.Migrations
             modelBuilder.Entity("Registrar.Models.StudentCourse", b =>
                 {
                     b.HasOne("Registrar.Models.Course", "Course")
-                        .WithMany("JoinEntities")
+                        .WithMany("JoinStuCou")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Registrar.Models.Student", "Student")
-                        .WithMany("JoinEntities")
+                        .WithMany("JoinStuCou")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -95,12 +95,12 @@ namespace Registrar.Migrations
 
             modelBuilder.Entity("Registrar.Models.Course", b =>
                 {
-                    b.Navigation("JoinEntities");
+                    b.Navigation("JoinStuCou");
                 });
 
             modelBuilder.Entity("Registrar.Models.Student", b =>
                 {
-                    b.Navigation("JoinEntities");
+                    b.Navigation("JoinStuCou");
                 });
 #pragma warning restore 612, 618
         }

@@ -5,11 +5,10 @@
 @model Registrar.Models.Course
 
 <h2>Course Details</h2>
-<hr />
 <h3>Course Name: @Html.DisplayFor(model => model.Title)</h3>
 <h3>Course Number: @Html.DisplayFor(model => model.Number)</h3>
 
-@if(@Model.JoinEntities.Count == 0)
+@if(@Model.JoinStuCou.Count == 0)
 {
   <p>There are no students registered for this course</p>
 }
@@ -17,12 +16,33 @@ else
 {
   <h4>Students registered for this course:</h4>
   <ul>
-  @foreach(var join in Model.JoinEntities)
+  @foreach(var join in Model.JoinStuCou)
   {
     <li>@join.Student.Name</li>
+
     @using (Html.BeginForm("DeleteStudent", "Courses"))
     {
       @Html.Hidden("joinId", @join.StudentCourseId)
+      <input type="submit" value="Delete"/>
+    }
+  }
+  </ul>
+}
+
+@if(@Model.JoinDeptCou.Count == 0)
+{
+  <p>This course has not been added to a department</p>
+}
+else
+{
+  <h4>Department for this course:</h4>
+  <ul>
+  @foreach(var join in Model.JoinDeptCou)
+  {
+    <li>@join.Department.Focus</li>
+    @using (Html.BeginForm("DeleteDepartment", "Courses"))
+    {
+      @Html.Hidden("joinId", @join.DepartmentCourseId)
       <input type="submit" value="Delete"/>
     }
   }
@@ -33,3 +53,4 @@ else
 <p>@Html.ActionLink("Edit Course", "Edit", new { id = Model.CourseId })</p>
 <p>@Html.ActionLink("Delete Course", "Delete", new { id = Model.CourseId })</p>
 <p>@Html.ActionLink("Add a Student", "AddStudent", new { id = Model.CourseId })</p>
+<p>@Html.ActionLink("Add a Department", "AddDepartment", new { id = Model.CourseId })</p>

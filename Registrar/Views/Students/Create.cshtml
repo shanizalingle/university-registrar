@@ -13,6 +13,12 @@
   @Html.Label("Enrollment Date")
   @Html.TextBoxFor(model => model.Date, new { type = "date" })
 
+  @Html.Label("Select a course for this student")
+  @Html.DropDownList("CourseId")
+
+  @Html.Label("Select a department for this student")
+  @Html.DropDownList("DepartmentId")
+
   <input type="submit" value="Add new student" />
 }
 <p>@Html.ActionLink("Show all students", "Index")</p>

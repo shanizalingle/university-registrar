@@ -14,12 +14,15 @@
 
   @Html.Label("Change course title")
   @Html.EditorFor(model => model.Title)
+  
+  @Html.Label("Change course number")
+  @Html.EditorFor(model => model.Number)
 
   @Html.Label("Select student")
   @Html.DropDownList("StudentId")
 
-  @Html.Label("Change course number")
-  @Html.EditorFor(model => model.Number)
+  @Html.Label("Select department")
+  @Html.DropDownList("DepartmentId")
 
   <input type="submit" value="Save" />
 }

@@ -25,11 +25,12 @@ namespace Registrar.Controllers
     public ActionResult Create()
     {
       ViewBag.StudentId = new SelectList(_db.Students, "StudentId", "Name");
+      ViewBag.DepartmentId = new SelectList(_db.Departments, "DepartmentId", "Focus");
       return View();
     }
 
     [HttpPost]
-    public ActionResult Create(Course course, int StudentId, string Title, string Number)
+    public ActionResult Create(Course course, int StudentId, int DepartmentId, string Title, string Number)
     {
       _db.Courses.Add(course);
       _db.SaveChanges();
@@ -38,14 +39,21 @@ namespace Registrar.Controllers
         _db.StudentCourse.Add(new StudentCourse() { StudentId = StudentId, CourseId = course.CourseId });
         _db.SaveChanges();
       }
+      if (DepartmentId != 0)
+      {
+        _db.DepartmentCourse.Add(new DepartmentCourse() { DepartmentId = DepartmentId, CourseId = course.CourseId });
+        _db.SaveChanges();
+      }
       return RedirectToAction("Index");
     }
 
     public ActionResult Details(int id)
     {
       var thisCourse = _db.Courses
-        .Include(course => course.JoinEntities)
+        .Include(course => course.JoinStuCou)
         .ThenInclude(join => join.Student)
+        .Include(course => course.JoinDeptCou)
+        .ThenInclude(join => join.Department)
         .FirstOrDefault(course => course.CourseId == id);
       return View(thisCourse);
     }
@@ -54,15 +62,20 @@ namespace Registrar.Controllers
     {
       Course thisCourse = _db.Courses.FirstOrDefault(course => course.CourseId == id);
       ViewBag.StudentId = new SelectList(_db.Students, "StudentId", "Name");
+      ViewBag.DepartmentId = new SelectList(_db.Departments, "DepartmentId", "Focus");
       return View(thisCourse);
     }
 
     [HttpPost]
-    public ActionResult Edit(Course course, int StudentId)
+    public ActionResult Edit(Course course, int StudentId, int DepartmentId)
     {
       if (StudentId != 0)
       {
         _db.StudentCourse.Add(new StudentCourse() { StudentId = StudentId, CourseId = course.CourseId });
+      }
+      if (DepartmentId != 0)
+      {
+        _db.DepartmentCourse.Add(new DepartmentCourse() { DepartmentId = DepartmentId, CourseId = course.CourseId });
       }
       _db.Entry(course).State = EntityState.Modified;
       _db.SaveChanges();
@@ -82,6 +95,24 @@ namespace Registrar.Controllers
       if (StudentId != 0)
       {
         _db.StudentCourse.Add(new StudentCourse() { StudentId = StudentId, CourseId = course.CourseId });
+        _db.SaveChanges();
+      }
+      return RedirectToAction("Index");
+    }
+
+    public ActionResult AddDepartment(int id)
+    {
+      var thisCourse = _db.Courses.FirstOrDefault(course => course.CourseId == id);
+      ViewBag.DepartmentId = new SelectList(_db.Departments, "DepartmentId", "Focus");
+      return View(thisCourse);
+    }
+
+    [HttpPost]
+    public ActionResult AddDepartment(Course course, int DepartmentId)
+    {
+      if (DepartmentId != 0)
+      {
+        _db.DepartmentCourse.Add(new DepartmentCourse() { CourseId = course.CourseId, DepartmentId = DepartmentId });
         _db.SaveChanges();
       }
       return RedirectToAction("Index");
@@ -107,6 +138,15 @@ namespace Registrar.Controllers
     {
       var joinEntry = _db.StudentCourse.FirstOrDefault(entry => entry.StudentCourseId == joinId);
       _db.StudentCourse.Remove(joinEntry);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
+
+    [HttpPost]
+    public ActionResult DeleteDepartment(int joinId)
+    {
+      var joinEntry = _db.DepartmentCourse.FirstOrDefault(entry => entry.DepartmentCourseId == joinId);
+      _db.DepartmentCourse.Remove(joinEntry);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }

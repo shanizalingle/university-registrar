@@ -17,6 +17,9 @@
   @Html.Label("Select student to add to course")
   @Html.DropDownList("StudentId")
 
+  @Html.Label("Select department to add to course")
+  @Html.DropDownList("DepartmentId")
+
   <input type="submit" value="Add new course" class="btn btn-default" />
 }
 <p>@Html.ActionLink("Show all courses", "Index")</p>

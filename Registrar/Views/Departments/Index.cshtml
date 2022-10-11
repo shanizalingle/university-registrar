@@ -1,0 +1,18 @@
+@{
+  Layout = "_Layout";
+}
+
+@using Registrar.Models;
+@model List<Registrar.Models.Department>;
+
+<h1>Departments</h1>
+
+<ul>
+  @foreach(Department department in Model)
+  {
+    <li>@Html.ActionLink($"{department.Focus}", "Details", new { id = department.DepartmentId })</li>
+  }
+</ul>
+
+<p>@Html.ActionLink("Add new department", "Create")</p>
+<p>@Html.ActionLink("Home", "Index", "Home")</p>
